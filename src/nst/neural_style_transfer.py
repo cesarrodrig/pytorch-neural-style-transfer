@@ -27,6 +27,7 @@ class Config:
     output_img_dir: str = "data/output-images"
     # num digits, ext
     img_format: str = (4, ".jpg")
+    is_reconstruct: bool = False
 
 
 def build_loss(
