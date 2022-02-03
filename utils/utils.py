@@ -72,22 +72,22 @@ def save_image(img, img_path):
 
 def generate_out_img_name(config):
     prefix = (
-        os.path.basename(config["content_img_name"]).split(".")[0]
+        os.path.basename(config.content_img_name).split(".")[0]
         + "_"
-        + os.path.basename(config["style_img_name"]).split(".")[0]
+        + os.path.basename(config.style_img_name).split(".")[0]
     )
     # called from the reconstruction script
     if "reconstruct_script" in config:
-        suffix = f'_o_{config["optimizer"]}_h_{str(config["height"])}_m_{config["model"]}{config["img_format"][1]}'
+        suffix = f"_o_{config.optimizer}_h_{str(config.height)}_m_{config.model}{config.img_format[1]}"
     else:
-        suffix = f'_o_{config["optimizer"]}_i_{config["init_method"]}_h_{str(config["height"])}_m_{config["model"]}_cw_{config["content_weight"]}_sw_{config["style_weight"]}_tv_{config["tv_weight"]}{config["img_format"][1]}'
+        suffix = f"_o_{config.optimizer}_i_{config.init_method}_h_{str(config.height)}_m_{config.model}_cw_{config.content_weight}_sw_{config.style_weight}_tv_{config.tv_weight}{config.img_format[1]}"
     return prefix + suffix
 
 
 def save_and_maybe_display(
     optimizing_img, dump_path, config, img_id, num_of_iterations, should_display=False
 ):
-    saving_freq = config["saving_freq"]
+    saving_freq = config.saving_freq
     out_img = optimizing_img.squeeze(axis=0).to("cpu").detach().numpy()
     out_img = np.moveaxis(
         out_img, 0, 2
@@ -97,7 +97,7 @@ def save_and_maybe_display(
     if img_id == num_of_iterations - 1 or (
         saving_freq > 0 and img_id % saving_freq == 0
     ):
-        img_format = config["img_format"]
+        img_format = config.img_format
         out_img_name = (
             str(img_id).zfill(img_format[0]) + img_format[1]
             if saving_freq != -1
