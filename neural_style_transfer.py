@@ -144,10 +144,7 @@ def neural_style_transfer(config):
     ]
 
     # magic numbers in general are a big no no - some things in this code are left like this by design to avoid clutter
-    num_of_iterations = {
-        "lbfgs": 1000,
-        "adam": 3000,
-    }
+    num_of_iterations = config["iterations"]
 
     #
     # Start of optimization procedure
@@ -162,7 +159,7 @@ def neural_style_transfer(config):
             style_feature_maps_indices_names[0],
             config,
         )
-        for cnt in range(num_of_iterations[config["optimizer"]]):
+        for cnt in range(num_of_iterations):
             total_loss, content_loss, style_loss, tv_loss = tuning_step(optimizing_img)
             with torch.no_grad():
                 print(
@@ -173,7 +170,7 @@ def neural_style_transfer(config):
                     dump_path,
                     config,
                     cnt,
-                    num_of_iterations[config["optimizer"]],
+                    num_of_iterations,
                     should_display=False,
                 )
     elif config["optimizer"] == "lbfgs":
@@ -208,7 +205,7 @@ def neural_style_transfer(config):
                     dump_path,
                     config,
                     cnt,
-                    num_of_iterations[config["optimizer"]],
+                    num_of_iterations,
                     should_display=False,
                 )
 
@@ -267,6 +264,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--optimizer", type=str, choices=["lbfgs", "adam"], default="lbfgs"
     )
+    parser.add_argument("--iterations", type=int, default=1000)
     parser.add_argument(
         "--model", type=str, choices=["vgg16", "vgg19"], default="vgg19"
     )
