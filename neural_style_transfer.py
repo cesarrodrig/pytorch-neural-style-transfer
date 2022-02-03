@@ -177,7 +177,7 @@ def neural_style_transfer(config):
         # line_search_fn does not seem to have significant impact on result
         optimizer = LBFGS(
             (optimizing_img,),
-            max_iter=num_of_iterations["lbfgs"],
+            max_iter=num_of_iterations,
             line_search_fn="strong_wolfe",
         )
         cnt = 0
