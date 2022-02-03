@@ -1,13 +1,13 @@
+import argparse
+import os
 from dataclasses import dataclass
-import utils.utils as utils
-from utils.video_utils import create_video_from_intermediate_results
 
+import numpy as np
 import torch
 from torch.optim import Adam, LBFGS
 from torch.autograd import Variable
-import numpy as np
-import os
-import argparse
+
+import utils
 
 
 @dataclass
@@ -102,7 +102,7 @@ def make_tuning_step(
     return tuning_step
 
 
-def neural_style_transfer(config: Config) -> str:
+def transfer_style(config: Config) -> str:
     content_img_path = os.path.join(config.content_images_dir, config.content_img_name)
     style_img_path = os.path.join(config.style_images_dir, config.style_img_name)
 
@@ -321,7 +321,7 @@ if __name__ == "__main__":
     optimization_config.img_format = img_format
 
     # original NST (Neural Style Transfer) algorithm (Gatys et al.)
-    results_path = neural_style_transfer(optimization_config)
+    results_path = transfer_style(optimization_config)
 
     # uncomment this if you want to create a video from images dumped during the optimization procedure
     # create_video_from_intermediate_results(results_path, img_format)
